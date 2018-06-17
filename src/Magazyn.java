@@ -1,4 +1,6 @@
+import javax.swing.*;
 import java.util.Random;
+import java.util.concurrent.Semaphore;
 
 public class Magazyn extends Thread{
 
@@ -8,13 +10,17 @@ public class Magazyn extends Thread{
     int numer;
     int tryb;
     int zasoby;
-    Magazyn( int tryb){
+    Plac plac;
+    Semaphore s;
+    Magazyn( int tryb , Plac plac , Semaphore s){
+        this.s = s;
         numer = liczbaWatkow;
         liczbaWatkow++;
         wybieranie[numer] = false;
         numerek[numer] = 0;
         this.tryb = tryb;
         zasoby = 100;
+        this.plac = plac;
     }
     void dzialanieSynchr()  {
         for(int a = 1;;a++){
@@ -52,13 +58,30 @@ public class Magazyn extends Thread{
 
     }
 
-    void sekcjaKrytyczna(int a) {
-        System.out.println("jade do magazynu " + numer);
+    void sekcjaKrytyczna(int a)  {
         try {
-            Magazyn.sleep(1000);
+            s.acquire();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        System.out.println("jade do magazynu " + numer);
+        switch (numer){
+            case 0:
+                plac.jedzA();
+                break;
+            case 1:
+            plac.jedzB();
+            break;
+            case 2:
+              plac.jedzC();
+                break;
+            case 3:
+                plac.jedzD();
+                break;
+        }
+
+
+
 
     }
 

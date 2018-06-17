@@ -2,7 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
 
 public class Plac extends JPanel  {
 
@@ -12,14 +14,16 @@ public class Plac extends JPanel  {
     private Image magazynf;
     private Image forkliff;
     int x  , y ;
-
+    boolean dojechal = false;
+    boolean lewyWozek = true;
     Timer timer;
+    Semaphore[] semaphores;
+    Random generator = new Random();
 
 
 
-
-    public Plac( ) {
-
+    public Plac(Semaphore[] semaphores ) {
+        this.semaphores = semaphores;
         //this.wozek = wozek;
         //timer = new Timer(5 , this);
         ImageIcon ii = new ImageIcon("hurtownia.jpg");
@@ -34,15 +38,9 @@ public class Plac extends JPanel  {
         forkliff = ii.getImage();
 
 
-        timer = new Timer(3, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // czyJedzie.czyjaKolej
 
-            }
-        });
 
-        timer.start();
+
     }
 
     public void paintComponent(Graphics g){
@@ -64,155 +62,212 @@ public class Plac extends JPanel  {
         g.drawImage(magazyn,50,400,200,200,null);
         g.drawImage(magazynf,700,50,200,200,null);
         g.drawImage(magazynf,700,400,200,200,null);
-//        if(lewyWozek == true)
-//            g.drawImage(forklif,x,y, 100 , 50,null);
-//        else
-//            g.drawImage(forkliff,x,y, 100 , 50,null);
+        if(lewyWozek == true)
+            g.drawImage(forklif,x,y, 100 , 50,null);
+        else
+            g.drawImage(forkliff,x,y, 100 , 50,null);
 //        // g.drawImage(forklif,300,250, 100 , 50,null);//srodekLewa
 ////        g.drawImage(forkliff,600,250, 100 , 50,null);//srodekprawa
 ////        g.drawImage(forklif,150,200, 100 , 50,null);//lewaGora
 ////        g.drawImage(forklif,150,550, 100 , 50,null);//lewydol
 ////        g.drawImage(forklif,700,200, 100 , 50,null);//prawaGora
 ////        g.drawImage(forklif,700,550, 100 , 50,null);//prawyDol
-    }}
+    }
 
 
-//    public void jedzA ()  {
-//        x = 300;
-//        y = 250;
-//
-//        timer = new Timer(3, new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                if(dojechal[0] == false){
-//                    if(x > 150)
-//                        x = x - 1;
-//                    else if(y > 200)
-//                        y -= 1;
-//                    else if(x == 150 && y == 200)
-//                    {
-//
-//                        lewyWozek = false;
-//                    }
-//                }else
-//                {
-//
-//                    if(y < 250)
-//                        y += 1;
-//                    else if(x <300)
-//                        x = x + 1;
-//                    else if(x == 300 && y == 250)
-//                    {
-//
-//                        System.out.println("Koniec");
-//                        timer.stop();
-//
-//                    }
-//
-//                }
-//                repaint();
-//            }
-//        });
-//        timer.start();
-//    }
-//
-//    public void jedzB ()
-//    {
-//        timer = new Timer(3, new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                if(dojechal[1] == false){
-//                    if(y < 550)
-//                        y += 1;
-//                    else if (x > 150)
-//                        x = x - 1;
-//                    else if(x == 150 && y == 550)
-//                    {
-//                        dojechal[1] = true;
-//                        lewyWozek = false;
-//                    }
-//                }else
-//                {
-//
-//                    if(x <300)
-//                        x++;
-//                    else if (y > 250)
-//                        y --;
-//
-//
-//
-//                }
-//                repaint();
-//            }
-//        });
-//        timer.start();
-//    }
-//    public void jedzC ()
-//    {
-//        lewyWozek = false;
-//        x = 600;
-//        y = 250;
-//        timer = new Timer(3, new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                if(dojechal[0] == false){
-//                    if(x < 700)
-//                        x++;
-//                    else if(y > 200)
-//                        y--;
-//                    else if(x == 700 && y == 200)
-//                    {
-//                        dojechal[0] = true;
-//                        lewyWozek = true;
-//                    }
-//                }else
-//                {
-//
-//                    if(y < 250)
-//                        y += 1;
-//                    else if(x >600)
-//                        x--;
-//
-//
-//                }
-//                repaint();
-//            }
-//        });
-//        timer.start();
-//    }
-//    public void jedzD ()
-//    {
-//        x = 600;
-//        y = 250;
-//        lewyWozek = false;
-//        timer = new Timer(3, new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                if(dojechal[1] == false){
-//                    if(y < 550)
-//                        y ++;
-//                    else if (x < 700)
-//                        x++;
-//                    else if(x == 700 && y == 550)
-//                    {
-//                        dojechal[1] = true;
-//                        lewyWozek = true;
-//                    }
-//                }else
-//                {
-//                    if(x >600)
-//                        x--;
-//                    else if (y > 250)
-//                        y --;
-//                    else if(x == 600 && y == 250)
-//                        timer.stop();
-//                }
-//                repaint();
-//            }
-//        });
-//        timer.start();
-//    }
-//
-//
-//
-//}
+    public void jedzA ()  {
+        x = 300;
+        y = 250;
+        dojechal = false;
+        lewyWozek = true;
+
+        timer = new Timer(10, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                    if(dojechal == false){
+                        if(x > 150)
+                            x = x -5;
+                        else if(y > 200)
+                            y -= 5;
+
+                        if(x == 150 && y == 200)
+                        {
+                            dojechal = true;
+                            if(generator.nextInt(100) < 5) {
+                                System.out.println("Czekam na dostawe do magazynu 0");
+                            try {
+                                TimeUnit.MILLISECONDS.sleep(generator.nextInt(5000));
+                            } catch (InterruptedException e1) {
+                                e1.printStackTrace();
+                            }
+
+                        }
+                        }
+
+
+
+                    }
+                    else{
+                        lewyWozek = false;
+
+
+
+                        if(y < 250)
+                            y += 5;
+                        else if(x <300)
+                            x = x + 5;
+                        else if(x == 300 && y == 250)
+                        {
+
+                            System.out.println("Koniec");
+                            semaphores[0].release();
+                            timer.stop();
+                        }
+                    }
+                repaint();
+            }
+        });
+        timer.start();
+    }
+
+    public void jedzB ()
+    {
+        x = 300;
+        y = 250;
+        dojechal = false;
+        lewyWozek = true;
+        timer = new Timer(10, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(dojechal == false) {
+                    if (y < 550)
+                        y += 5;
+                    else if (x > 150)
+                        x = x - 5;
+                    if(y == 550 && x == 150)
+                    {
+                        dojechal = true;
+                        if(generator.nextInt(100) < 5) {
+                            System.out.println("Czekam na dostawe do magazynu 1");
+                            try {
+                                TimeUnit.MILLISECONDS.sleep(generator.nextInt(5000));
+                            } catch (InterruptedException e1) {
+                                e1.printStackTrace();
+                            }
+
+                        }
+                    }
+
+                }else{
+                    lewyWozek = false;
+                    if(x <300)
+                        x+=5;
+                    else if (y > 250)
+                        y -=5;
+                    else if(x == 300 && y == 250)
+                    {
+                        System.out.println("Koniec");
+                        timer.stop();
+                        semaphores[0].release();
+                    }
+                }
+                repaint();
+            }
+        });
+        timer.start();
+    }
+    public void jedzC ()
+    {
+
+        x = 600;
+        y = 250;
+        dojechal = false;
+        lewyWozek = false;
+        timer = new Timer(10, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(dojechal == false) {
+                    if (x < 700)
+                        x+=5;
+                    else if (y > 200)
+                        y-=5;
+                        if(x == 700 && y == 200)
+                        {
+                            dojechal = true;
+                            if(generator.nextInt(100) < 5) {
+                                System.out.println("Czekam na dostawe do magazynu 2");
+                                try {
+                                    TimeUnit.MILLISECONDS.sleep(generator.nextInt(5000));
+                                } catch (InterruptedException e1) {
+                                    e1.printStackTrace();
+                                }
+
+                            }
+
+                        }
+
+                }else{
+                    lewyWozek = true;
+                    if(y < 250)
+                        y += 5;
+                    else if(x >600)
+                        x-=5;
+                    else if(x == 600 && y == 250)
+                    {
+                        System.out.println("Koniec");
+                        timer.stop();
+                        semaphores[0].release();
+                    }
+                }
+                repaint();
+            }
+        });
+        timer.start();
+    }
+    public void jedzD ()
+    {
+        x = 600;
+        y = 250;
+        dojechal = false;
+        lewyWozek = false;
+        timer = new Timer(10, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(dojechal == false) {
+                    if (y < 550)
+                        y+=5;
+                    else if (x < 700)
+                        x+=5;
+                    else if(x == 700 && y == 550)
+                    {
+                        dojechal = true;
+                        if(generator.nextInt(100) < 5) {
+                            System.out.println("Czekam na dostawe do magazynu 3");
+                            try {
+                                TimeUnit.MILLISECONDS.sleep(generator.nextInt(5000));
+                            } catch (InterruptedException e1) {
+                                e1.printStackTrace();
+                            }
+
+                        }
+                    }
+                } else {
+                    lewyWozek = true;
+                    if(x >600)
+                        x-=5;
+                    else if (y > 250)
+                        y -=5;
+                    else if(x == 600 && y == 250){
+                        timer.stop();
+                        semaphores[0].release();}
+                }
+                repaint();
+            }
+        });
+        timer.start();
+    }
+
+
+
+}
